@@ -19,10 +19,6 @@ dist/
 !.vscode/settings.json
 !.vscode/tasks.json
 
-# Local env files
-.env
-!.env.example
-
 # this is for jetbrain IDEs
 .idea/
 /puter
