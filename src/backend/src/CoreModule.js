@@ -22,6 +22,8 @@ const Library = require("./definitions/Library");
 const { NotificationES } = require("./om/entitystorage/NotificationES");
 const { ProtectedAppES } = require("./om/entitystorage/ProtectedAppES");
 const { Context } = require('./util/context');
+const { LLOWrite } = require("./filesystem/ll_operations/ll_write");
+const { LLRead } = require("./filesystem/ll_operations/ll_read");
 
 
 
@@ -79,6 +81,7 @@ const install = async ({ services, app, useapi, modapi }) => {
         def('core.util.helpers', require('./helpers'));
         def('core.util.permission', require('./services/auth/PermissionService').PermissionUtil);
         def('puter.middlewares.auth', require('./middleware/auth2'));
+        def('puter.middlewares.configurable_auth', require('./middleware/configurable_auth'));
         def('puter.middlewares.anticsrf', require('./middleware/anticsrf'));
         
         def('core.APIError', require('./api/APIError'));
@@ -86,6 +89,20 @@ const install = async ({ services, app, useapi, modapi }) => {
         
         def('core', require('./services/auth/Actor'), { assign: true });
         def('core.config', config);
+        
+        // Note: this is an incomplete export; it was added for a proprietary
+        // extension. Contributors may wish to add definitions in the 'fs.'
+        // scope. Needing to add these individually is possibly a symptom of an
+        // anti-pattern; "export filesystem operations to extensions" is one
+        // statement in English, so maybe it should be one statement of code.
+        def('core.fs', {
+            LLOWrite,
+            LLRead,
+        });
+        def('core.fs.selectors', require('./filesystem/node/selectors'));
+        def('core.util.stream', require('./util/streamutil'));
+        def('web', require('./util/expressutil'));
+        def('core.validation', require('@heyputer/backend-core-0').validation);
     });
     
     useapi.withuse(() => {

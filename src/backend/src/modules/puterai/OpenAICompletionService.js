@@ -84,7 +84,7 @@ class OpenAICompletionService extends BaseService {
     * @returns {string} The default model ID 'gpt-4o-mini'
     */
     get_default_model () {
-        return 'gpt-4o-mini';
+        return 'gpt-4.1-nano';
     }
 
 
@@ -102,26 +102,20 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 250,
                     output: 500,
-                }
+                },
+                max_tokens: 16384,
             },
             {
                 id: 'gpt-4o-mini',
+                max_tokens: 16384,
                 cost: {
                     currency: 'usd-cents',
                     tokens: 1_000_000,
-                    input: 15,
-                    output: 30,
-                }
+                    input: 60,
+                    output: 240,
+                },
+                max_tokens: 16384,
             },
-            // {
-            //     id: 'o1-preview',
-            //     cost: {
-            //         currency: 'usd-cents',
-            //         tokens: 1_000_000,
-            //         input: 1500,
-            //         output: 6000,
-            //     },
-            // }
             {
                 id: 'o1',
                 cost: {
@@ -129,7 +123,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 1500,
                     output: 6000,
-                }
+                },
+                max_tokens: 100000,
             },
             {
                 id: 'o1-mini',
@@ -138,7 +133,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 300,
                     output: 1200,
-                }
+                },
+                max_tokens: 65536,
             },
             {
                 id: 'o1-pro',
@@ -147,7 +143,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 15000,
                     output: 60000,
-                }
+                },
+                max_tokens: 100000,
             },
             {
                 id: 'o3',
@@ -156,7 +153,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 1000,
                     output: 4000,
-                }
+                },
+                max_tokens: 100000,
             },
             {
                 id: 'o3-mini',
@@ -165,7 +163,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 110,
                     output: 440,
-                }
+                },
+                max_tokens: 100000,
             },
             {
                 id: 'o4-mini',
@@ -174,7 +173,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 110,
                     output: 440,
-                }
+                },
+                max_tokens: 100000,
             },
             {
                 id: 'gpt-4.1',
@@ -183,7 +183,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 200,
                     output: 800,
-                }
+                },
+                max_tokens: 32768,
             },
             {
                 id: 'gpt-4.1-mini',
@@ -192,7 +193,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 40,
                     output: 160,
-                }
+                },
+                max_tokens: 32768,
             },
             {
                 id: 'gpt-4.1-nano',
@@ -201,7 +203,8 @@ class OpenAICompletionService extends BaseService {
                     tokens: 1_000_000,
                     input: 10,
                     output: 40,
-                }
+                },
+                max_tokens: 32768,
             },
             {
                 id: 'gpt-4.5-preview',
@@ -335,7 +338,7 @@ class OpenAICompletionService extends BaseService {
             messages: messages,
             model: model,
             ...(tools ? { tools } : {}),
-            ...(max_tokens ? { max_tokens } : {}),
+            ...(max_tokens ? { max_completion_tokens: max_tokens } : {}),
             ...(temperature ? { temperature } : {}),
             stream,
             ...(stream ? {
